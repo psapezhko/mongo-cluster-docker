@@ -10,12 +10,12 @@ sh.disableBalancing("test.sample");
 
 db.sample.drop();
 
-db.createCollection("sample"); 
+db.createCollection("sample");
 
-db.sample.createIndex( { factoryId: 1 } );
-
+db.sample.createIndex( { factoryId: 1 } );
+
 sh.enableSharding("test");
-
+
 sh.shardCollection("test.sample",{ location: 1, factoryId: 1});
 
 sh.addTagRange(
@@ -35,19 +35,19 @@ sh.addTagRange(
 
 
 
-sh.enableBalancing("test.sample");
-
-for(var i=0; i<100; i++){
-    db.sample.insert({
-        "location": "US",
-        "factoryId": NumberInt(i)
-    });
-    
-    db.sample.insert({
-        "location": "EU",
-        "factoryId": NumberInt(100+i)
-    });
-}
+sh.enableBalancing("test.sample");
+
+for(var i=0; i<100; i++){
+    db.sample.insert({
+        "location": "US",
+        "factoryId": NumberInt(i)
+    });
+
+    db.sample.insert({
+        "location": "EU",
+        "factoryId": NumberInt(100+i)
+    });
+}
 
 sh.startBalancer();
 

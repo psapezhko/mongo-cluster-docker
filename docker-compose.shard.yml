@@ -2,13 +2,9 @@ version: '3'
 services:
     mongo-router:
         container_name: "mongo-router"
-        image: mongo:4.0.1
+        image: mongo
         ports:
             - "30001:27017"
-        depends_on:
-            - "mongo-rs1-setup"
-            - "mongo-rs2-setup"
-            - "mongo-cnf-setup"
         external_links:
             - mongo-cnf-1:mongo-cnf-1
             - mongo-cnf-2:mongo-cnf-2
@@ -24,14 +20,14 @@ services:
 
     mongo-shard-setup:
         container_name: "mongo-shard-setup"
-        image: mongo:4.0.1
+        image: mongo
         depends_on:
             - "mongo-router"
         links:
             - mongo-router:mongo-router
         volumes:
             - ./scripts:/scripts
-        environment: 
+        environment:
             - MONGOS=mongo-router
             - MONGO11=mongo-1-1
             - MONGO12=mongo-1-2
